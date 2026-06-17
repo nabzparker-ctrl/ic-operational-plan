@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IC Unit — Operational Plan 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <style>
+        :root {
+            --blue: #2563eb; --blue-dark: #1d4ed8; --blue-l: #eff6ff;
+            --slate: #64748b; --slate-dark: #475569; --slate-l: #f8fafc;
+            --ink: #0f172a; --ink2: #334155; --ink3: #475569;
+            --surf: #ffffff; --surf2: #f8fafc; --surf3: #f1f5f9; --surf4: #e2e8f0;
+            --line: #e2e8f0; --line2: #cbd5e1;
+            --green: #10b981; --green-l: #ecfdf5;
+            --amber: #f59e0b; --amber-l: #fffbeb;
+            --red: #ef4444; --red-l: #fef2f2;
+            --purple: #8b5cf6; --purple-l: #f5f3ff;
+            --teal: #14b8a6; --teal-l: #f0fdfa;
+            --font: 'Inter', sans-serif;
+            --rad: 8px;
+        }
+
+        html.dark {
+            --ink: #e2e8f0; --ink2: #94a3b8; --ink3: #64748b;
+            --surf: #1e2130; --surf2: #0f1117; --surf3: #252a3a; --surf4: #2e3347;
+            --line: #2e3347; --line2: #3d4460;
+            --blue-l: #1e3a5f; --green-l: #14311f; --amber-l: #2d1f07;
+            --red-l: #2d0f0f; --purple-l: #1e1535; --teal-l: #0a2530;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font); }
+        body { background: var(--surf2); color: var(--ink); font-size: 14px; overflow-y: scroll; }
+        
+        a, button { cursor: pointer; color: inherit; text-decoration: none; transition: 0.2s; border: none; background: none; }
+        input, select, textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--line2); border-radius: 6px; background: var(--surf); color: var(--ink); outline: none; margin-bottom: 12px; }
+        input:focus, select:focus, textarea:focus { border-color: var(--blue); }
+        
+        .flex { display: flex; align-items: center; }
+        .flex-col { display: flex; flex-direction: column; }
+        .grid { display: grid; }
+        .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; }
+        .justify-between { justify-content: space-between; }
+        .justify-end { justify-content: flex-end; }
+        .text-sm { font-size: 12px; } .text-lg { font-size: 16px; font-weight: 600; } .text-xl { font-size: 20px; font-weight: 700; }
+        .text-muted { color: var(--ink3); } .font-medium { font-weight: 500; }
+        
+        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; background: var(--surf); border: 1px solid var(--line2); }
+        .btn:hover { background: var(--surf3); }
+        .btn-primary { background: var(--blue); color: white; border: none; }
+        .btn-primary:hover { background: var(--blue-dark); color: white; }
+        .btn-green { background: var(--green); color: white; border: none; }
+        .btn-green:hover { background: #059669; }
+        .btn-icon { padding: 6px; border-radius: 6px; } .btn-icon:hover { background: var(--surf4); }
+        
+        .badge { padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+        .b-blue { background: var(--blue-l); color: var(--blue); }
+        .b-green { background: var(--green-l); color: var(--green); }
+        .b-slate { background: var(--slate-l); color: var(--slate); }
+        .b-red { background: var(--red-l); color: var(--red); }
+        .b-amber { background: var(--amber-l); color: var(--amber); }
+        .b-purple { background: var(--purple-l); color: var(--purple); }
+
+        /* Topbar & Nav */
+        header { position: sticky; top: 0; background: var(--surf); border-bottom: 1px solid var(--line); z-index: 50; padding: 12px 24px; }
+        .brand-icon { width: 34px; height: 34px; border-radius: 8px; background: var(--blue); color: white; justify-content: center; font-weight: bold; font-size: 18px; flex-shrink:0; }
+        nav { background: var(--surf); padding: 0 24px; border-bottom: 1px solid var(--line); display: flex; gap: 24px; }
+        .tab-link { padding: 12px 0; border-bottom: 2px solid transparent; font-weight: 500; color: var(--ink3); }
+        .tab-link.active { border-color: var(--blue); color: var(--blue); }
+        .tab-link:hover:not(.active) { color: var(--ink); border-color: var(--line2); }
+        
+        main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Dashboard & Cards */
+        .card { background: var(--surf); border: 1px solid var(--line); border-radius: var(--rad); padding: 20px; }
+        .stat-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .col-2 { grid-template-columns: 1fr 1fr; gap: 24px; }
+        
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 12px; border-bottom: 1px solid var(--line); }
+        th { font-weight: 600; color: var(--ink2); background: var(--surf3); cursor: pointer; }
+        tr:hover { background: var(--surf2); }
+        
+        /* Filters */
+        .filter-bar { background: var(--surf); padding: 16px; border-radius: var(--rad); border: 1px solid var(--line); margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .filter-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .filter-row input, .filter-row select { margin-bottom: 0; width: auto; flex: 1; min-width: 130px; }
+        .pill { padding: 4px 12px; border-radius: 99px; border: 1px solid var(--line2); font-size: 12px; background: var(--surf); cursor: pointer; }
+        .pill.active { background: var(--blue); color: white; border-color: var(--blue); }
+        
+        /* Gantt */
+        .gantt-container { overflow-x: auto; background: var(--surf); border: 1px solid var(--line); border-radius: var(--rad); position: relative; }
+        .gantt-header { display: flex; background: var(--surf3); border-bottom: 1px solid var(--line); }
+        .gantt-task-col { width: 200px; min-width: 200px; padding: 12px; font-weight: bold; border-right: 1px solid var(--line); position: sticky; left: 0; background: var(--surf3); z-index: 2; }
+        .gantt-months { display: flex; flex: 1; }
+        .gantt-month { flex: 1; min-width: 60px; padding: 12px 4px; text-align: center; border-right: 1px solid var(--line); font-size: 12px; }
+        .gantt-row { display: flex; border-bottom: 1px solid var(--line); position: relative; }
+        .gantt-task-name { width: 200px; min-width: 200px; padding: 12px; font-size: 12px; border-right: 1px solid var(--line); position: sticky; left: 0; background: var(--surf); z-index: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gantt-timeline { flex: 1; position: relative; }
+        .gantt-bar { position: absolute; height: 20px; top: 12px; border-radius: 4px; z-index: 1; display: flex; align-items: center; justify-content: flex-end; padding-right: 4px; color: white; font-size: 10px; }
+        .gantt-group { background: var(--surf4); font-weight: bold; padding: 8px 12px; }
+        
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--surf); width: 100%; max-width: 540px; border-radius: var(--rad); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surf2); }
+        .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 16px 20px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 12px; background: var(--surf2); }
+        
+        /* Comments */
+        .comment-thread { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+        .comment-box { display: flex; gap: 12px; margin-bottom: 16px; }
+        .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 12px; flex-shrink: 0; }
+        .comment-content { background: var(--surf3); padding: 12px; border-radius: 0 8px 8px 8px; flex: 1; }
+
+        /* Notifications Panel */
+        .bell-wrap { position: relative; }
+        .badge-count { position: absolute; top: -2px; right: -2px; background: var(--red); color: white; font-size: 10px; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
+        .notif-panel { position: absolute; top: 100%; right: 0; width: 320px; max-height: 420px; background: var(--surf); border: 1px solid var(--line); border-radius: var(--rad); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: none; flex-direction: column; z-index: 60; overflow: hidden; margin-top: 8px;}
+        .notif-panel.active { display: flex; }
+        .notif-body { overflow-y: auto; flex: 1; padding: 8px 0; }
+        .notif-item { padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; cursor: pointer; }
+        .notif-item:hover { background: var(--surf2); }
+        
+        /* View Mode Overrides */
+        body.view-mode .edit-only { display: none !important; }
+        .view-banner { display: none; background: var(--green-l); color: var(--green); padding: 8px; text-align: center; font-weight: 500; border-bottom: 1px solid var(--green); }
+        body.view-mode .view-banner { display: block; }
+        
+        /* Print Styles */
+        @media print {
+            .no-print, header, nav, .filter-bar, .modal-overlay, .btn { display: none !important; }
+            html, body, .card { background: white !important; color: black !important; }
+            .tab-content { display: block !important; page-break-before: always; }
+            .tab-content:first-of-type { page-break-before: auto; }
+            @page { size: A4; margin: 18mm; }
+            .print-header { display: block !important; margin-bottom: 20px; border-bottom: 2px solid black; padding-bottom: 10px; }
+            .gantt-container { overflow: visible; }
+            table { font-size: 12px; }
+            * { box-shadow: none !important; border-color: #ccc !important; }
+            body::after { content: "IC Unit Operational Plan 2026 — Confidential"; position: fixed; bottom: 0; left: 0; font-size: 10px; text-align: center; width: 100%; }
+        }
+        .print-header { display: none; }
+        
+        /* Utilities */
+        .hidden { display: none !important; }
+        .w-full { width: 100%; }
+        .mt-4 { margin-top: 16px; } .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+
+<div class="view-banner edit-only-hide">VIEW MODE ACTIVE — Editing Disabled</div>
+
+<header class="flex justify-between w-full">
+    <div class="flex gap-3 w-full" style="max-width: 60%;">
+        <div class="brand-icon flex">WCG</div>
+        <div class="flex-col">
+            <div class="flex gap-2">
+                <span id="app-title" class="text-lg font-medium">IC Unit — Operational Plan 2026</span>
+                <button class="btn-icon text-muted edit-only" onclick="editTitles()"><i class="ti ti-pencil"></i></button>
+            </div>
+            <span id="app-subtitle" class="text-sm text-muted">Internal Control · Provincial Department · Western Cape</span>
+        </div>
+    </div>
+    <div class="flex gap-4 no-print text-sm">
+        <span id="date-label" class="font-medium"></span>
+        <span id="save-status" class="text-muted"><i class="ti ti-check text-green"></i> Saved</span>
+        <div class="bell-wrap">
+            <button class="btn-icon" onclick="toggleNotifPanel()"><i class="ti ti-bell"></i><div id="notif-badge" class="badge-count hidden">0</div></button>
+            <div id="notif-panel" class="notif-panel">
+                <div class="modal-header">
+                    <span class="font-medium">Reminders</span>
+                    <button class="btn-icon" onclick="toggleSettings()"><i class="ti ti-settings"></i></button>
+                </div>
+                <div id="notif-settings" class="modal-body hidden" style="background:var(--surf2); border-bottom:1px solid var(--line);">
+                    <label class="text-sm font-medium">Remind me days before due:</label>
+                    <input type="number" id="set-remind-days" min="1" max="30" class="mb-2">
+                    <label class="text-sm font-medium">Urgent notification window (days):</label>
+                    <input type="number" id="set-urgent-days" min="1" max="30" class="mb-2">
+                    <button class="btn btn-primary w-full" onclick="saveSettings()">Save Settings</button>
+                </div>
+                <div class="notif-body" id="notif-list"></div>
+            </div>
+        </div>
+        <button class="btn-icon" onclick="toggleDarkMode()"><i class="ti ti-moon" id="theme-icon"></i></button>
+        <button class="btn" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
+        <button class="btn b-green" onclick="openSheetModal()"><i class="ti ti-brand-google"></i> <span id="sheet-status">Connect Sheet</span></button>
+        <button class="btn b-slate" id="mode-toggle" onclick="toggleMode()"><i class="ti ti-eye"></i> View Mode</button>
+    </div>
+</header>
+
+<div class="print-header">
+    <h1 id="print-title">IC Unit — Operational Plan 2026</h1>
+    <h2 id="print-subtitle">Internal Control · Provincial Department · Western Cape</h2>
+    <div style="text-align: right; font-size: 12px; margin-top: -30px;" id="print-date"></div>
+</div>
+
+<nav class="no-print">
+    <a class="tab-link active" onclick="switchTab('dashboard')">Dashboard</a>
+    <a class="tab-link" onclick="switchTab('tasks')">Tasks</a>
+    <a class="tab-link" onclick="switchTab('leave')">Leave</a>
+    <a class="tab-link" onclick="switchTab('correspondence')">Correspondence</a>
+    <a class="tab-link edit-only" onclick="switchTab('manage')">Manage</a>
+    <a class="tab-link" onclick="switchTab('team')">Team</a>
+</nav>
+
+<main>
+    <div id="tab-dashboard" class="tab-content active">
+        <h2 class="text-xl mb-4 print-header">Dashboard</h2>
+        <div class="grid stat-grid" id="dash-stats"></div>
+        <div class="grid col-2">
+            <div class="card">
+                <h3 class="font-medium mb-4">Completion Progress</h3>
+                <div id="dash-bars" class="flex-col gap-3"></div>
+            </div>
+            <div class="card">
+                <h3 class="font-medium mb-4">Top Workloads (Active Tasks)</h3>
+                <div id="dash-officials" class="flex-col gap-3"></div>
+            </div>
+            <div class="card">
+                <h3 class="font-medium mb-4 text-red">Urgent & Important Upcoming</h3>
+                <div id="dash-urgent" class="flex-col gap-2"></div>
+            </div>
+            <div class="card">
+                <h3 class="font-medium mb-4">Tasks Due This Month</h3>
+                <div id="dash-month" class="flex-col gap-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-tasks" class="tab-content">
+        <h2 class="text-xl mb-4 print-header">Tasks</h2>
+        <div class="filter-bar no-print">
+            <div class="filter-row justify-between">
+                <div class="flex gap-2" style="flex:1;">
+                    <input type="text" id="f-search" placeholder="Search tasks..." oninput="renderTasks()">
+                    <select id="f-bucket" onchange="renderTasks()"><option value="all">All Buckets</option></select>
+                    <select id="f-status" onchange="renderTasks()">
+                        <option value="all">All Statuses</option>
+                        <option value="Completed">Completed</option>
+                        <option value="In progress">In progress</option>
+                        <option value="Not started">Not started</option>
+                    </select>
+                    <select id="f-priority" onchange="renderTasks()">
+                        <option value="all">All Priorities</option>
+                        <option value="Urgent">Urgent</option>
+                        <option value="Important">Important</option>
+                        <option value="Medium">Medium</option>
+                    </select>
+                    <select id="f-official" onchange="renderTasks()"><option value="all">All Officials</option></select>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn" onclick="clearFilters()">Clear Filters</button>
+                    <div class="badge b-slate" id="task-count">0 tasks</div>
+                    <div class="flex gap-1 bg-surf3 p-1 rounded" style="background:var(--surf3); padding:4px; border-radius:6px;">
+                        <button class="btn-icon" id="view-table" onclick="setTaskView('table')"><i class="ti ti-list"></i></button>
+                        <button class="btn-icon" id="view-gantt" onclick="setTaskView('gantt')"><i class="ti ti-chart-gantt"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-row">
+                <span class="text-sm font-medium text-muted">Due Date:</span>
+                <input type="date" id="f-date-from" onchange="handleDateCustom()">
+                <span class="text-sm">to</span>
+                <input type="date" id="f-date-to" onchange="handleDateCustom()">
+                
+                <div class="flex gap-2">
+                    <button class="pill" id="p-week" onclick="setPreset('week')">This week</button>
+                    <button class="pill" id="p-nextweek" onclick="setPreset('nextweek')">Next week</button>
+                    <button class="pill" id="p-month" onclick="setPreset('month')">This month</button>
+                    <button class="pill" id="p-nextmonth" onclick="setPreset('nextmonth')">Next month</button>
+                    <button class="pill text-red" id="p-overdue" onclick="setPreset('overdue')">Overdue</button>
+                    <button class="btn text-sm" onclick="clearDates()"><i class="ti ti-x"></i> Clear dates</button>
+                </div>
+            </div>
+            <div class="filter-row justify-end mt-2 pt-2" style="border-top:1px dashed var(--line);">
+                <button class="btn b-slate edit-only" onclick="openTaskModal()"><i class="ti ti-plus"></i> Add Task</button>
+                <button class="btn b-blue" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
+                <button class="btn btn-green" onclick="exportWeeklyProgress()"><i class="ti ti-report"></i> Weekly Progress Report</button>
+            </div>
+        </div>
+
+        <div id="tasks-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="sortTasks('name')">Task Name</th>
+                        <th onclick="sortTasks('bucket')">Bucket</th>
+                        <th onclick="sortTasks('status')">Status</th>
+                        <th onclick="sortTasks('priority')">Priority</th>
+                        <th onclick="sortTasks('start')">Start Date</th>
+                        <th onclick="sortTasks('due')">Due Date</th>
+                        <th>Assigned To</th>
+                        <th class="no-print edit-only">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tasks-tbody"></tbody>
+            </table>
+        </div>
+
+        <div id="tasks-gantt-container" class="gantt-container hidden">
+            <div class="gantt-header">
+                <div class="gantt-task-col">Task</div>
+                <div class="gantt-months" id="gantt-months"></div>
+            </div>
+            <div id="gantt-body"></div>
+        </div>
+    </div>
+
+    <div id="tab-leave" class="tab-content">
+        <div class="flex justify-between mb-4">
+            <h2 class="text-xl print-header">Leave Management</h2>
+            <button class="btn btn-primary edit-only" onclick="openLeaveModal()"><i class="ti ti-plus"></i> Record Leave</button>
+        </div>
+        <div class="grid stat-grid" id="leave-grid"></div>
+    </div>
+
+    <div id="tab-correspondence" class="tab-content">
+        <div class="flex justify-between mb-4 no-print">
+            <div class="flex gap-2">
+                <button class="pill active" id="c-view-all" onclick="setCorrView('all')">All</button>
+                <button class="pill" id="c-view-out" onclick="setCorrView('outgoing')">Outgoing</button>
+                <button class="pill" id="c-view-in" onclick="setCorrView('incoming')">Incoming</button>
+                <button class="pill edit-only" id="c-view-units" onclick="setCorrView('units')">Manage Units</button>
+            </div>
+            <button class="btn btn-primary edit-only" id="btn-new-corr" onclick="openCorrModal()"><i class="ti ti-plus"></i> New Request</button>
+        </div>
+        
+        <div id="corr-stats" class="grid stat-grid mb-4"></div>
+        <div id="corr-list" class="grid gap-3"></div>
+        
+        <div id="corr-units-view" class="hidden">
+            <h3 class="font-medium mb-3">External Units</h3>
+            <button class="btn btn-primary mb-3 edit-only" onclick="openUnitModal()"><i class="ti ti-plus"></i> Add Unit</button>
+            <table class="w-full">
+                <thead><tr><th>Name</th><th>Abbreviation</th><th class="edit-only">Actions</th></tr></thead>
+                <tbody id="units-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="tab-manage" class="tab-content">
+        <h2 class="text-xl mb-4">Manage Master Data</h2>
+        <div class="grid col-2">
+            <div class="card">
+                <div class="flex justify-between mb-3">
+                    <h3 class="font-medium">Operational Buckets</h3>
+                    <button class="btn-icon" onclick="openBucketModal()"><i class="ti ti-plus"></i></button>
+                </div>
+                <table class="w-full">
+                    <tbody id="manage-buckets"></tbody>
+                </table>
+            </div>
+            <div class="card">
+                <div class="flex justify-between mb-3">
+                    <h3 class="font-medium">Team Officials</h3>
+                    <button class="btn-icon" onclick="openOfficialModal()"><i class="ti ti-plus"></i></button>
+                </div>
+                <table class="w-full">
+                    <tbody id="manage-officials"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-team" class="tab-content">
+        <h2 class="text-xl mb-4 print-header" id="team-heading">IC Unit Officials</h2>
+        <div class="grid stat-grid" id="team-grid"></div>
+    </div>
+</main>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalsOnOutside(event)">
+    <div class="modal hidden" id="m-task">
+        <div class="modal-header"><h3 id="m-task-title">Task</h3><button class="btn-icon" onclick="closeModals()"><i class="ti ti-x"></i></button></div>
+        <div class="modal-body">
+            <input type="hidden" id="t-id">
+            <label class="text-sm font-medium">Task Name *</label><input type="text" id="t-name">
+            <label class="text-sm font-medium">Bucket</label><select id="t-bucket"></select>
+            <div class="flex gap-3">
+                <div class="w-full"><label class="text-sm font-medium">Status</label><select id="t-status"><option>Not started</option><option>In progress</option><option>Completed</option></select></div>
+                <div class="w-full"><label class="text-sm font-medium">Priority</label><select id="t-priority"><option>Medium</option><option>Important</option><option>Urgent</option></select></div>
+            </div>
+            <div class="flex gap-3 mt-2">
+                <div class="w-full"><label class="text-sm font-medium">Start Date</label><input type="date" id="t-start"></div>
+                <div class="w-full"><label class="text-sm font-medium">Due Date</label><input type="date" id="t-due"></div>
+            </div>
+            <label class="text-sm font-medium mt-2">Assigned To</label>
+            <div id="t-assignees" class="flex flex-col gap-1 mb-3" style="max-height:100px; overflow-y:auto; border:1px solid var(--line2); padding:8px; border-radius:6px; background:var(--surf);"></div>
+            <div class="flex gap-2 align-center mt-2">
+                <input type="checkbox" id="t-recur" style="width:auto; margin:0;" onchange="document.getElementById('t-recur-opts').classList.toggle('hidden')">
+                <label class="text-sm font-medium">Recurring Task</label>
+            </div>
+            <div id="t-recur-opts" class="hidden flex gap-3 mt-2 border-l-2 pl-3" style="border-color:var(--purple);">
+                <div class="w-full"><label class="text-sm text-muted">Frequency</label><select id="t-freq"><option>Weekly</option><option>Fortnightly</option><option>Monthly</option><option>Quarterly</option></select></div>
+                <div class="w-full"><label class="text-sm text-muted">End Date</label><input type="date" id="t-recur-end"></div>
+            </div>
+
+            <div class="comment-thread">
+                <div class="flex justify-between align-center mb-3">
+                    <h4 class="font-medium">Comments <span class="badge b-slate" id="c-count">0</span></h4>
+                    <span class="badge b-blue" style="cursor:pointer" onclick="setMyName()" id="my-name-chip">You are: Unknown</span>
+                </div>
+                <div id="t-comments" class="flex-col gap-2 mb-3 max-h-40 overflow-y-auto"></div>
+                <textarea id="t-new-comment" placeholder="Add a comment..." rows="2"></textarea>
+                <button class="btn btn-primary text-sm" onclick="addComment()">Post Comment</button>
+            </div>
+        </div>
+        <div class="modal-footer edit-only">
+            <button class="btn text-red mr-auto hidden" id="btn-del-task" onclick="deleteTask()">Delete</button>
+            <button class="btn" onclick="closeModals()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveTask()">Save Task</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="m-leave">
+        <div class="modal-header"><h3>Record Leave</h3><button class="btn-icon" onclick="closeModals()"><i class="ti ti-x"></i></button></div>
+        <div class="modal-body">
+            <label class="text-sm">Official</label><select id="l-official"></select>
+            <label class="text-sm">Type</label><select id="l-type"><option>Annual</option><option>Sick</option><option>Family Responsibility</option><option>Study</option><option>Unpaid</option><option>Other</option></select>
+            <div class="flex gap-3"><div class="w-full"><label class="text-sm">From</label><input type="date" id="l-from" onchange="calcLeave()"></div><div class="w-full"><label class="text-sm">To</label><input type="date" id="l-to" onchange="calcLeave()"></div></div>
+            <label class="text-sm">Days: <span id="l-days" class="font-medium">0</span></label><br>
+            <label class="text-sm">Notes</label><input type="text" id="l-notes">
+        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModals()">Cancel</button><button class="btn btn-primary" onclick="saveLeave()">Save</button></div>
+    </div>
+
+    <div class="modal hidden" id="m-corr">
+        <div class="modal-header"><h3>Correspondence Request</h3><button class="btn-icon" onclick="closeModals()"><i class="ti ti-x"></i></button></div>
+        <div class="modal-body">
+            <input type="hidden" id="c-id">
+            <div class="flex gap-4 mb-3">
+                <label><input type="radio" name="c-dir" value="Outgoing" checked> IC Unit sends</label>
+                <label><input type="radio" name="c-dir" value="Incoming"> IC Unit receives</label>
+            </div>
+            <label class="text-sm">External Unit</label><select id="c-unit"></select>
+            <div class="flex gap-3">
+                <div class="w-full"><label class="text-sm">Priority</label><select id="c-priority"><option>Medium</option><option>Important</option><option>Urgent</option></select></div>
+                <div class="w-full"><label class="text-sm">Ref Number</label><input type="text" id="c-ref"></div>
+            </div>
+            <label class="text-sm">Subject</label><input type="text" id="c-subj">
+            <label class="text-sm">Description</label><textarea id="c-desc" rows="3"></textarea>
+            <div class="flex gap-3">
+                <div class="w-full"><label class="text-sm">Date Sent</label><input type="date" id="c-sent"></div>
+                <div class="w-full"><label class="text-sm">Response Due</label><input type="date" id="c-due"></div>
+            </div>
+            <label class="text-sm">Status</label><select id="c-status"><option>Pending</option><option>Responded</option><option>Closed</option></select>
+        </div>
+        <div class="modal-footer"><button class="btn text-red mr-auto hidden" id="btn-del-corr" onclick="deleteCorr()">Delete</button><button class="btn" onclick="closeModals()">Cancel</button><button class="btn btn-primary" onclick="saveCorr()">Save</button></div>
+    </div>
+    
+    <div class="modal hidden" id="m-simple">
+        <div class="modal-header"><h3 id="ms-title">Edit</h3><button class="btn-icon" onclick="closeModals()"><i class="ti ti-x"></i></button></div>
+        <div class="modal-body" id="ms-body"></div>
+        <div class="modal-footer"><button class="btn" onclick="closeModals()">Cancel</button><button class="btn btn-primary" id="ms-save">Save</button></div>
+    </div>
+</div>
+
+<script>
+// --- INITIAL DATA & STATE ---
+const NOW = new Date("2026-06-10T11:36:41");
+const DEFAULT_B = ["Audit Reviews & Inspections 2025/26","Risk Assessment & Management","Compliance Monitoring","Audit Committee Support","Internal Audit Follow-ups","Reporting & Submissions","IC Unit Administration"];
+const DEFAULT_U = [
+    {name:"Sipho Ndlovu", email:"sipho.n@westerncape.gov.za"}, {name:"Annelize van der Merwe", email:"avdm@westerncape.gov.za"}, 
+    {name:"Fatima Patel", email:"f.patel@westerncape.gov.za"}, {name:"Thabo Modise", email:"t.modise@westerncape.gov.za"},
+    {name:"Liesl Smith", email:"l.smith@westerncape.gov.za"}, {name:"Johan Botha", email:"j.botha@westerncape.gov.za"},
+    {name:"Zanele Khumalo", email:"z.khumalo@westerncape.gov.za"}, {name:"Riaan Jacobs", email:"r.jacobs@westerncape.gov.za"},
+    {name:"Nadia Ebrahim", email:"n.ebrahim@westerncape.gov.za"}, {name:"Lungelo Dlamini", email:"l.dlamini@westerncape.gov.za"},
+    {name:"Tanya Petersen", email:"t.petersen@westerncape.gov.za"}, {name:"Heinrich Venter", email:"h.venter@westerncape.gov.za"},
+    {name:"Nomsa Baloyi", email:"n.baloyi@westerncape.gov.za"}, {name:"Craig Williams", email:"c.williams@westerncape.gov.za"},
+    {name:"Aisha Daniels", email:"a.daniels@westerncape.gov.za"}, {name:"Pieter De Villiers", email:"p.devilliers@westerncape.gov.za"},
+    {name:"Bongiwe Mkhize", email:"b.mkhize@westerncape.gov.za"}, {name:"Wayne Isaacs", email:"w.isaacs@westerncape.gov.za"},
+    {name:"Lerato Mofokeng", email:"l.mofokeng@westerncape.gov.za"}, {name:"Gerrit Louw", email:"g.louw@westerncape.gov.za"},
+    {name:"Rochelle Meyer", email:"r.meyer@westerncape.gov.za"}, {name:"Kagiso Seabi", email:"k.seabi@westerncape.gov.za"}
+].map(u => ({id: uuid(), ...u}));
+
+const DEFAULT_UNITS = [{id:uuid(), name:"Financial Accounting", abbr:"FA"}, {id:uuid(), name:"Supply Chain Management", abbr:"SCM"}, {id:uuid(), name:"Management Accounting", abbr:"MA"}, {id:uuid(), name:"Budget Office", abbr:"BO"}, {id:uuid(), name:"Human Resources", abbr:"HR"}, {id:uuid(), name:"Information Technology", abbr:"IT"}];
+
+// Gen 38 Tasks spanning 2026, focused around June 10
+const rawTasks = [
+    ["Conduct compliance inspection - Q1","Compliance Monitoring","Completed","Medium","-30","-10",0,0],
+    ["Prepare risk register update","Risk Assessment & Management","In progress","Important","-10","2",1,0],
+    ["Follow-up: AG findings FA","Internal Audit Follow-ups","In progress","Urgent","-5","0",2,0],
+    ["Submit quarterly risk report Q1","Reporting & Submissions","Not started","Important","0","5",3,0],
+    ["Audit Committee meeting prep","Audit Committee Support","Not started","Urgent","2","7",4,0],
+    ["Review internal controls - procurement","Audit Reviews & Inspections 2025/26","In progress","Medium","-15","15",5,0],
+    ["Fraud risk assessment workshop","Risk Assessment & Management","Not started","Medium","10","20",6,0],
+    ["Monitor SCM action plans","Internal Audit Follow-ups","In progress","Important","-20","4",7,0],
+    ["Draft management responses","Reporting & Submissions","Overdue","Urgent","-10","-2",8,0],
+    ["Update IC policies manual","IC Unit Administration","Not started","Medium","20","45",9,0],
+];
+// Expand to 38 by cloning and shifting dates/assignees
+let taskPool = [];
+for(let i=0; i<38; i++) {
+    let t = rawTasks[i % rawTasks.length];
+    let startD = new Date(NOW); startD.setDate(startD.getDate() + parseInt(t[4]) + (i*2));
+    let dueD = new Date(NOW); dueD.setDate(dueD.getDate() + parseInt(t[5]) + (i*2));
+    let status = t[2];
+    if(status === "Overdue") status = "In progress"; 
+    if(dueD < NOW && status !== "Completed") status = "In progress"; // Force some true overdues logically
+    
+    taskPool.push({
+        id: uuid(), name: t[0] + (i>9 ? ` (${i})` : ''), bucket: t[1], status: status, priority: t[3],
+        start: startD.toISOString().split('T')[0], due: dueD.toISOString().split('T')[0],
+        assignees: [DEFAULT_U[i%22].id, DEFAULT_U[(i+3)%22].id], 
+        recur: i%7===0 ? {freq: 'Monthly', end: '2026-12-31'} : null
+    });
+}
+
+const DEFAULT_COMMENTS = {};
+taskPool.slice(0,3).forEach(t => {
+    DEFAULT_COMMENTS[t.id] = [
+        {id:uuid(), author:"Sipho Ndlovu", text:"Requested supporting docs from FA.", ts:"10/06/2026 09:15"},
+        {id:uuid(), author:"Annelize van der Merwe", text:"Noted, waiting on response.", ts:"10/06/2026 10:30"}
+    ];
+});
+
+const DEFAULT_CORR = [
+    {id:uuid(), dir:"Outgoing", unitId:DEFAULT_UNITS[0].id, priority:"Important", ref:"IC/FA/2026/001", subj:"Request for supporting docs", desc:"Audit review reqs", sent:"2026-06-01", due:"2026-06-08", status:"Overdue"},
+    {id:uuid(), dir:"Incoming", unitId:DEFAULT_UNITS[1].id, priority:"Urgent", ref:"IC/SCM/2026/002", subj:"Procurement sign-off", desc:"Need IC sign off on tender", sent:"2026-06-08", due:"2026-06-12", status:"Pending"},
+    {id:uuid(), dir:"Outgoing", unitId:DEFAULT_UNITS[4].id, priority:"Medium", ref:"IC/HR/2026/003", subj:"Findings report HR", desc:"Draft findings", sent:"2026-05-15", due:"2026-05-30", status:"Responded"},
+    {id:uuid(), dir:"Incoming", unitId:DEFAULT_UNITS[5].id, priority:"Important", ref:"IC/IT/2026/004", subj:"Access control policy review", desc:"Review new IT policy", sent:"2026-06-09", due:"2026-06-25", status:"Pending"},
+    {id:uuid(), dir:"Outgoing", unitId:DEFAULT_UNITS[2].id, priority:"Medium", ref:"IC/MA/2026/005", subj:"Risk register input", desc:"Please provide MA inputs", sent:"2026-06-10", due:"2026-06-17", status:"Pending"},
+    {id:uuid(), dir:"Incoming", unitId:DEFAULT_UNITS[3].id, priority:"Urgent", ref:"IC/BO/2026/006", subj:"Budget audit query", desc:"AG raised query on BO", sent:"2026-06-05", due:"2026-06-07", status:"Closed"}
+];
+
+let state = {
+    title: localStorage.getItem('ic_title') || "IC Unit — Operational Plan 2026",
+    sub: localStorage.getItem('ic_sub') || "Internal Control · Provincial Department · Western Cape",
+    buckets: JSON.parse(localStorage.getItem('ic_buckets')) || DEFAULT_B,
+    users: JSON.parse(localStorage.getItem('ic_users')) || DEFAULT_U,
+    tasks: JSON.parse(localStorage.getItem('ic_tasks')) || taskPool,
+    leave: JSON.parse(localStorage.getItem('ic_leave')) || [],
+    units: JSON.parse(localStorage.getItem('ic_units')) || DEFAULT_UNITS,
+    corr: JSON.parse(localStorage.getItem('ic_corr')) || DEFAULT_CORR,
+    comments: JSON.parse(localStorage.getItem('ic_comments')) || DEFAULT_COMMENTS,
+    dark: localStorage.getItem('ic_dark') === 'true',
+    remindDays: parseInt(localStorage.getItem('ic_reminder_days')) || 3,
+    urgentDays: parseInt(localStorage.getItem('ic_reminder_urgent_days')) || 7,
+    currentUser: localStorage.getItem('ic_current_user') || DEFAULT_U[0].name,
+    viewMode: localStorage.getItem('ic_view_mode') !== 'false' // default true/view
+};
+
+let currentSort = { col: 'due', asc: true };
+let taskView = 'table';
+let saveTimeout;
+
+// --- UTILS ---
+function uuid() { return Math.random().toString(36).substr(2, 9); }
+function getAvatarColor(str) { let hash=0; for(let i=0;i<str.length;i++) hash = str.charCodeAt(i) + ((hash<<5)-hash); return `hsl(${hash%360}, 65%, 45%)`; }
+function getInitials(n) { return n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(); }
+function formatDate(dStr) { if(!dStr) return ''; let d = new Date(dStr); return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`; }
+function daysBetween(d1, d2) { return Math.round((new Date(d2) - new Date(d1))/(1000*60*60*24)); }
+function isOverdue(task) { return task.status !== 'Completed' && new Date(task.due) < NOW && daysBetween(task.due, NOW) > 0; }
+
+function saveState() {
+    clearTimeout(saveTimeout);
+    document.getElementById('save-status').innerHTML = '<i class="ti ti-loader text-amber"></i> Saving...';
+    saveTimeout = setTimeout(() => {
+        localStorage.setItem('ic_title', state.title); localStorage.setItem('ic_sub', state.sub);
+        localStorage.setItem('ic_buckets', JSON.stringify(state.buckets)); localStorage.setItem('ic_users', JSON.stringify(state.users));
+        localStorage.setItem('ic_tasks', JSON.stringify(state.tasks)); localStorage.setItem('ic_leave', JSON.stringify(state.leave));
+        localStorage.setItem('ic_units', JSON.stringify(state.units)); localStorage.setItem('ic_corr', JSON.stringify(state.corr));
+        localStorage.setItem('ic_comments', JSON.stringify(state.comments)); localStorage.setItem('ic_current_user', state.currentUser);
+        localStorage.setItem('ic_view_mode', state.viewMode);
+        document.getElementById('save-status').innerHTML = '<i class="ti ti-check text-green"></i> Saved';
+        updateNotifBadge();
+    }, 1500);
+}
+
+// --- INIT & CORE ---
+function init() {
+    document.getElementById('date-label').innerText = formatDate(NOW);
+    document.getElementById('app-title').innerText = state.title;
+    document.getElementById('app-subtitle').innerText = state.sub;
+    document.getElementById('print-title').innerText = state.title;
+    document.getElementById('print-subtitle').innerText = state.sub;
+    document.getElementById('print-date').innerText = "Generated: " + formatDate(NOW);
+
+    if(state.dark) document.documentElement.classList.add('dark');
+    applyMode();
+    populateDropdowns();
+    renderAll();
+    updateNotifBadge();
+
+    // AUTO-LOAD from Google Sheets on startup if a URL is saved
+    if (GOOGLE_SCRIPT_URL) {
+        document.getElementById('sheet-status').innerHTML = '<i class="ti ti-loader"></i> Loading...';
+        loadFromGoogleSheets(GOOGLE_SCRIPT_URL, true);
+    }
+}
+
+// LOAD FROM GOOGLE SHEETS
+function loadFromGoogleSheets(url, silent) {
+    const statusEl = document.getElementById('sheet-status');
+    const pass = encodeURIComponent("ic-unit-2026");
+    fetch(url + '?action=read&pass=' + pass)
+        .then(r => r.json())
+        .then(res => {
+            if (!res.ok) throw new Error(res.error || 'Script returned an error');
+            const d = res.data;
+
+            if (d.users && d.users.length)
+                state.users = d.users.map(u => ({ id: u.id || uuid(), name: u.name, email: u.email || '' }));
+            if (d.buckets && d.buckets.length)
+                state.buckets = d.buckets.map(b => b.name);
+            if (d.units && d.units.length)
+                state.units = d.units.map(u => ({ id: u.id || uuid(), name: u.name, abbr: u.abbr || '' }));
+            if (d.tasks && d.tasks.length)
+                state.tasks = d.tasks.map(t => ({
+                    id: t.id || uuid(), name: t.name, bucket: t.bucket,
+                    status: t.status, priority: t.priority,
+                    start: t.start, due: t.due,
+                    assignees: t.assignees
+                        ? t.assignees.split(';').map(n => n.trim()).filter(Boolean)
+                            .map(name => { const u = state.users.find(u => u.name === name); return u ? u.id : null; }).filter(Boolean)
+                        : [],
+                    recur: null, comments: []
+                }));
+            if (d.leave && d.leave.length)
+                state.leave = d.leave.map(l => ({
+                    id: uuid(),
+                    uid: (state.users.find(u => u.name === l.official) || {}).id || '',
+                    type: l.type, from: l.from, to: l.to, days: l.days, notes: l.notes
+                }));
+            if (d.correspondence && d.correspondence.length)
+                state.corr = d.correspondence.map(c => ({
+                    id: uuid(), dir: c.direction,
+                    unitId: (state.units.find(u => u.name === c.unit) || {}).id || '',
+                    priority: c.priority, ref: c.ref, subj: c.subject,
+                    desc: c.description, sent: c.sent, due: c.due, status: c.status
+                }));
+
+            saveState();
+            populateDropdowns();
+            renderAll();
+            statusEl.innerHTML = '<i class="ti ti-check"></i> Sheet Loaded';
+            if (!silent) {
+                const modal = document.getElementById('gs-status');
+                if (modal) modal.innerHTML = '<span style="color:var(--green)"><i class="ti ti-check"></i> Data loaded successfully!</span>';
+            }
+        })
+        .catch(err => {
+            statusEl.innerHTML = '<i class="ti ti-alert-circle"></i> Load Failed';
+            if (!silent) {
+                const modal = document.getElementById('gs-status');
+                if (modal) modal.innerHTML = '<span style="color:var(--red)"><i class="ti ti-alert-circle"></i> Load failed: ' + err.message + '</span>';
+            }
+            console.error('Sheet load error:', err);
+        });
+}
+
+function applyMode() {
+    document.body.classList.toggle('view-mode', state.viewMode);
+    document.getElementById('mode-toggle').innerHTML = state.viewMode ? `<i class="ti ti-pencil"></i> Editor Mode` : `<i class="ti ti-eye"></i> View Mode`;
+    document.getElementById('mode-toggle').className = `btn ${state.viewMode ? 'b-blue' : 'b-amber'}`;
+}
+function toggleMode() { state.viewMode = !state.viewMode; applyMode(); saveState(); renderTasks(); }
+function toggleDarkMode() {
+    state.dark = !state.dark;
+    document.documentElement.classList.toggle('dark', state.dark);
+    localStorage.setItem('ic_dark', state.dark);
+}
+function switchTab(id) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+    document.getElementById(`tab-${id}`).classList.add('active');
+    event.currentTarget.classList.add('active');
+    if(id==='tasks') renderTasks();
+    if(id==='dashboard') renderDashboard();
+}
+
+function editTitles() {
+    let nt = prompt("Enter App Title:", state.title);
+    if(nt) { state.title = nt; document.getElementById('app-title').innerText = nt; document.getElementById('print-title').innerText = nt; }
+    let ns = prompt("Enter Subtitle:", state.sub);
+    if(ns) { state.sub = ns; document.getElementById('app-subtitle').innerText = ns; document.getElementById('print-subtitle').innerText = ns; }
+    saveState();
+}
+
+function populateDropdowns() {
+    let bs = `<option value="all">All Buckets</option>` + state.buckets.map(b => `<option value="${b}">${b}</option>`).join('');
+    document.getElementById('f-bucket').innerHTML = bs;
+    let us = `<option value="all">All Officials</option>` + state.users.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+    document.getElementById('f-official').innerHTML = us;
+}
+
+function renderAll() {
+    renderDashboard(); renderTasks(); renderLeave(); renderCorrespondence(); renderManage(); renderTeam();
+}
+
+// --- DASHBOARD ---
+function renderDashboard() {
+    let t = state.tasks, c=0, p=0, n=0, o=0;
+    t.forEach(x => { if(x.status==='Completed') c++; else if(x.status==='In progress') p++; else n++; if(isOverdue(x)) o++; });
+    document.getElementById('dash-stats').innerHTML = `
+        <div class="card"><div class="text-muted text-sm font-medium">Total Tasks</div><div class="text-xl mt-2">${t.length}</div></div>
+        <div class="card" style="border-left:4px solid var(--green)"><div class="text-muted text-sm font-medium">Completed</div><div class="text-xl mt-2">${c}</div></div>
+        <div class="card" style="border-left:4px solid var(--blue)"><div class="text-muted text-sm font-medium">In Progress</div><div class="text-xl mt-2">${p}</div></div>
+        <div class="card" style="border-left:4px solid var(--slate)"><div class="text-muted text-sm font-medium">Not Started</div><div class="text-xl mt-2">${n}</div></div>
+        <div class="card" style="border-left:4px solid var(--red)"><div class="text-muted text-sm font-medium">Overdue</div><div class="text-xl mt-2 text-red">${o}</div></div>
+    `;
+    
+    let bBars = state.buckets.map(b => {
+        let bt = t.filter(x => x.bucket === b);
+        let bc = bt.filter(x => x.status === 'Completed').length;
+        let pct = bt.length ? Math.round((bc/bt.length)*100) : 0;
+        return `<div class="text-sm"><div class="flex justify-between mb-1"><span>${b}</span><span>${pct}%</span></div>
+        <div style="width:100%; height:8px; background:var(--surf4); border-radius:4px; overflow:hidden;"><div style="width:${pct}%; height:100%; background:var(--blue);"></div></div></div>`;
+    }).join('');
+    document.getElementById('dash-bars').innerHTML = bBars;
+
+    let wloads = state.users.map(u => {
+        let c = t.filter(x => x.status !== 'Completed' && x.assignees.includes(u.id)).length;
+        return {n: u.name, c:c};
+    }).sort((a,b)=>b.c - a.c).slice(0,5);
+    document.getElementById('dash-officials').innerHTML = wloads.map(w => `<div class="flex justify-between text-sm"><span>${w.n}</span><span class="font-medium">${w.c} active</span></div>`).join('');
+
+    let urg = t.filter(x => (x.priority==='Urgent' || x.priority==='Important') && x.status!=='Completed' && daysBetween(NOW, x.due)<=14).sort((a,b)=>new Date(a.due)-new Date(b.due)).slice(0,6);
+    document.getElementById('dash-urgent').innerHTML = urg.length ? urg.map(x => `<div class="p-2 border-b text-sm" style="border-bottom:1px solid var(--line);"><div class="font-medium truncate">${x.name}</div><div class="flex justify-between text-muted mt-1"><span>${formatDate(x.due)}</span><span class="badge ${x.priority==='Urgent'?'b-red':'b-amber'}">${x.priority}</span></div></div>`).join('') : '<div class="text-muted text-sm">No urgent tasks upcoming.</div>';
+
+    let tm = t.filter(x => new Date(x.due).getMonth() === NOW.getMonth() && new Date(x.due).getFullYear() === NOW.getFullYear() && x.status!=='Completed').sort((a,b)=>new Date(a.due)-new Date(b.due)).slice(0,6);
+    document.getElementById('dash-month').innerHTML = tm.length ? tm.map(x => `<div class="p-2 border-b text-sm" style="border-bottom:1px solid var(--line);"><div class="font-medium truncate">${x.name}</div><div class="text-muted mt-1">${formatDate(x.due)}</div></div>`).join('') : '<div class="text-muted text-sm">No tasks due this month.</div>';
+}
+
+// --- TASKS ---
+let activeDatePreset = null;
+function setPreset(p) {
+    activeDatePreset = p;
+    document.querySelectorAll('.pill').forEach(el => el.classList.remove('active'));
+    if(p) document.getElementById('p-'+p).classList.add('active');
+    
+    let dFrom = document.getElementById('f-date-from');
+    let dTo = document.getElementById('f-date-to');
+    
+    let d1 = new Date(NOW), d2 = new Date(NOW);
+    let day = d1.getDay() || 7; // 1-7 Mon-Sun
+    
+    if(p==='week') { d1.setDate(d1.getDate() - day + 1); d2.setDate(d1.getDate() + 6); }
+    else if(p==='nextweek') { d1.setDate(d1.getDate() - day + 8); d2.setDate(d1.getDate() + 6); }
+    else if(p==='month') { d1.setDate(1); d2.setMonth(d2.getMonth()+1, 0); }
+    else if(p==='nextmonth') { d1.setMonth(d1.getMonth()+1, 1); d2.setMonth(d2.getMonth()+2, 0); }
+    else if(p==='overdue') { d1.setFullYear(2000,0,1); d2.setDate(d2.getDate()-1); }
+    
+    if(p) { dFrom.value = d1.toISOString().split('T')[0]; dTo.value = d2.toISOString().split('T')[0]; }
+    renderTasks();
+}
+function clearDates() { activeDatePreset = null; document.querySelectorAll('.pill').forEach(el => el.classList.remove('active')); document.getElementById('f-date-from').value=''; document.getElementById('f-date-to').value=''; renderTasks(); }
+function handleDateCustom() { activeDatePreset = null; document.querySelectorAll('.pill').forEach(el => el.classList.remove('active')); renderTasks(); }
+function clearFilters() {
+    document.getElementById('f-search').value = '';
+    ['bucket','status','priority','official'].forEach(id => document.getElementById('f-'+id).value='all');
+    clearDates();
+}
+
+function getFilteredTasks() {
+    let s = document.getElementById('f-search').value.toLowerCase();
+    let b = document.getElementById('f-bucket').value;
+    let st = document.getElementById('f-status').value;
+    let pr = document.getElementById('f-priority').value;
+    let off = document.getElementById('f-official').value;
+    let df = document.getElementById('f-date-from').value;
+    let dt = document.getElementById('f-date-to').value;
+    
+    let dFrom = df ? new Date(df) : null;
+    let dTo = dt ? new Date(dt) : null;
+    if(dTo) dTo.setHours(23,59,59);
+
+    return state.tasks.filter(t => {
+        if(s && !t.name.toLowerCase().includes(s)) return false;
+        if(b!=='all' && t.bucket!==b) return false;
+        if(st!=='all' && t.status!==st) return false;
+        if(pr!=='all' && t.priority!==pr) return false;
+        if(off!=='all' && !t.assignees.includes(off)) return false;
+        
+        if(activeDatePreset === 'overdue' && t.status === 'Completed') return false; // Overdue preset ignores completed
+        
+        let dueD = new Date(t.due);
+        if(dFrom && dueD < dFrom) return false;
+        if(dTo && dueD > dTo) return false;
+        
+        return true;
+    }).sort((a,b) => {
+        let v1 = a[currentSort.col], v2 = b[currentSort.col];
+        if(currentSort.col === 'name' || currentSort.col === 'bucket') { v1=v1.toLowerCase(); v2=v2.toLowerCase(); }
+        if(currentSort.col === 'start' || currentSort.col === 'due') { v1=new Date(v1).getTime(); v2=new Date(v2).getTime(); }
+        if(v1 < v2) return currentSort.asc ? -1 : 1;
+        if(v1 > v2) return currentSort.asc ? 1 : -1;
+        return 0;
+    });
+}
+
+function sortTasks(col) {
+    if(currentSort.col === col) currentSort.asc = !currentSort.asc;
+    else { currentSort.col = col; currentSort.asc = true; }
+    renderTasks();
+}
+
+function setTaskView(v) {
+    taskView = v;
+    document.getElementById('view-table').classList.toggle('b-blue', v==='table');
+    document.getElementById('view-gantt').classList.toggle('b-blue', v==='gantt');
+    document.getElementById('tasks-table-container').classList.toggle('hidden', v==='gantt');
+    document.getElementById('tasks-gantt-container').classList.toggle('hidden', v==='table');
+    renderTasks();
+}
+
+function renderTasks() {
+    let fts = getFilteredTasks();
+    document.getElementById('task-count').innerText = `${fts.length} tasks`;
+    
+    // TABLE
+    let html = fts.map(t => {
+        let sColor = t.status==='Completed' ? 'green' : (t.status==='In progress' ? 'blue' : 'slate');
+        let pColor = t.priority==='Urgent' ? 'red' : (t.priority==='Important' ? 'amber' : 'slate');
+        let dColor = isOverdue(t) ? 'color:var(--red); font-weight:bold;' : (daysBetween(NOW, t.due) <= 3 && t.status!=='Completed' ? 'color:var(--amber); font-weight:bold;' : '');
+        let avs = t.assignees.map(aid => {
+            let u = state.users.find(x=>x.id===aid);
+            return u ? `<div class="avatar" title="${u.name}" style="background:${getAvatarColor(u.name)}; display:inline-flex; width:24px; height:24px; font-size:10px; margin-right:-8px; border:2px solid var(--surf);">${getInitials(u.name)}</div>` : '';
+        }).join('');
+        
+        return `<tr>
+            <td class="font-medium">${t.name} ${t.recur ? `<i class="ti ti-repeat text-purple" title="Recurs ${t.recur.freq}"></i>`:''}</td>
+            <td class="text-sm">${t.bucket}</td>
+            <td><span class="badge b-${sColor}">${t.status}</span></td>
+            <td><span class="badge b-${pColor}">${t.priority}</span></td>
+            <td class="text-sm">${formatDate(t.start)}</td>
+            <td class="text-sm" style="${dColor}">${formatDate(t.due)}</td>
+            <td style="padding-right:16px;">${avs}</td>
+            <td class="no-print edit-only">
+                <button class="btn-icon text-muted" onclick="openTaskModal('${t.id}')"><i class="ti ti-pencil"></i></button>
+            </td>
+        </tr>`;
+    }).join('');
+    document.getElementById('tasks-tbody').innerHTML = html;
+
+    // GANTT
+    if(taskView === 'gantt' && fts.length > 0) {
+        let minD = new Date(Math.min(...fts.map(t=>new Date(t.start))));
+        let maxD = new Date(Math.max(...fts.map(t=>new Date(t.due))));
+        minD.setDate(1); maxD.setMonth(maxD.getMonth()+1, 0); // pad
+        if(daysBetween(minD, maxD) < 365) maxD.setMonth(minD.getMonth()+11, 0); // min 12 mos
+        
+        let totalMs = maxD - minD;
+        
+        let mHtml = '', cur = new Date(minD);
+        while(cur <= maxD) {
+            mHtml += `<div class="gantt-month">${cur.toLocaleString('default',{month:'short'})} ${cur.getFullYear().toString().slice(-2)}</div>`;
+            cur.setMonth(cur.getMonth()+1);
+        }
+        document.getElementById('gantt-months').innerHTML = mHtml;
+
+        let gHtml = '';
+        let grouped = fts.reduce((acc, t) => { (acc[t.bucket] = acc[t.bucket] || []).push(t); return acc; }, {});
+        Object.keys(grouped).forEach(b => {
+            gHtml += `<div class="gantt-row gantt-group text-sm">${b}</div>`;
+            grouped[b].forEach(t => {
+                let startPct = ((new Date(t.start) - minD) / totalMs) * 100;
+                let wPct = ((new Date(t.due) - new Date(t.start)) / totalMs) * 100;
+                let bg = t.status==='Completed' ? 'var(--green)' : (t.status==='In progress' ? 'var(--blue)' : 'var(--slate)');
+                if(isOverdue(t)) bg = 'var(--red)';
+                
+                gHtml += `<div class="gantt-row">
+                    <div class="gantt-task-name" title="${t.name}">${t.name}</div>
+                    <div class="gantt-timeline">
+                        <div class="gantt-bar" style="left:${startPct}%; width:${Math.max(wPct, 0.5)}%; background:${bg};" title="${t.name}\n${formatDate(t.start)} - ${formatDate(t.due)}">
+                            ${t.recur ? '<i class="ti ti-repeat" style="font-size:10px; margin-left:4px;"></i>' : ''}
+                        </div>
+                    </div>
+                </div>`;
+            });
+        });
+        document.getElementById('gantt-body').innerHTML = gHtml;
+    } else {
+        document.getElementById('gantt-body').innerHTML = '<div class="p-4 text-muted">No tasks to display in Gantt view.</div>';
+    }
+}
+
+// --- TASK MODAL & COMMENTS ---
+function openTaskModal(id=null) {
+    let m = document.getElementById('m-task');
+    let title = document.getElementById('m-task-title');
+    let bs = document.getElementById('t-bucket');
+    bs.innerHTML = state.buckets.map(b => `<option value="${b}">${b}</option>`).join('');
+    
+    let html = state.users.map(u => `<label class="flex gap-2 text-sm"><input type="checkbox" value="${u.id}" class="t-ass-chk"> ${u.name}</label>`).join('');
+    document.getElementById('t-assignees').innerHTML = html;
+
+    if(id) {
+        let t = state.tasks.find(x=>x.id===id);
+        title.innerText = "Edit Task";
+        document.getElementById('t-id').value = t.id;
+        document.getElementById('t-name').value = t.name;
+        bs.value = t.bucket;
+        document.getElementById('t-status').value = t.status;
+        document.getElementById('t-priority').value = t.priority;
+        document.getElementById('t-start').value = t.start;
+        document.getElementById('t-due').value = t.due;
+        document.querySelectorAll('.t-ass-chk').forEach(c => c.checked = t.assignees.includes(c.value));
+        
+        let r = document.getElementById('t-recur');
+        r.checked = !!t.recur;
+        document.getElementById('t-recur-opts').classList.toggle('hidden', !t.recur);
+        if(t.recur) { document.getElementById('t-freq').value = t.recur.freq; document.getElementById('t-recur-end').value = t.recur.end; }
+        
+        document.getElementById('btn-del-task').classList.remove('hidden');
+        renderComments(t.id);
+    } else {
+        title.innerText = "New Task";
+        document.getElementById('t-id').value = '';
+        document.getElementById('t-name').value = '';
+        document.getElementById('t-status').value = 'Not started';
+        document.getElementById('t-priority').value = 'Medium';
+        document.getElementById('t-start').value = new Date().toISOString().split('T')[0];
+        document.getElementById('t-due').value = new Date(Date.now()+7*86400000).toISOString().split('T')[0];
+        document.querySelectorAll('.t-ass-chk').forEach(c => c.checked = false);
+        document.getElementById('t-recur').checked = false;
+        document.getElementById('t-recur-opts').classList.add('hidden');
+        document.getElementById('btn-del-task').classList.add('hidden');
+        document.getElementById('t-comments').innerHTML = '<div class="text-sm text-muted">Save task to add comments.</div>';
+        document.getElementById('c-count').innerText = '0';
+    }
+    
+    document.getElementById('my-name-chip').innerText = `You are: ${state.currentUser}`;
+    document.getElementById('modal-overlay').classList.add('active');
+    m.classList.remove('hidden');
+}
+
+function saveTask() {
+    let id = document.getElementById('t-id').value;
+    let asg = Array.from(document.querySelectorAll('.t-ass-chk:checked')).map(c=>c.value);
+    if(!document.getElementById('t-name').value) return alert("Task name required.");
+    
+    let rec = null;
+    if(document.getElementById('t-recur').checked) {
+        rec = { freq: document.getElementById('t-freq').value, end: document.getElementById('t-recur-end').value };
+    }
+
+    let tObj = {
+        id: id || uuid(),
+        name: document.getElementById('t-name').value,
+        bucket: document.getElementById('t-bucket').value,
+        status: document.getElementById('t-status').value,
+        priority: document.getElementById('t-priority').value,
+        start: document.getElementById('t-start').value,
+        due: document.getElementById('t-due').value,
+        assignees: asg,
+        recur: rec
+    };
+    
+    if(id) {
+        let idx = state.tasks.findIndex(x=>x.id===id);
+        state.tasks[idx] = tObj;
+    } else {
+        state.tasks.push(tObj);
+    }
+    saveState(); closeModals(); renderTasks(); renderDashboard();
+}
+
+function deleteTask() {
+    if(!confirm("Delete this task?")) return;
+    state.tasks = state.tasks.filter(x => x.id !== document.getElementById('t-id').value);
+    saveState(); closeModals(); renderTasks(); renderDashboard();
+}
+
+// Comments
+function setMyName() {
+    let n = prompt("Enter your name:", state.currentUser);
+    if(n) { state.currentUser = n; document.getElementById('my-name-chip').innerText = `You are: ${n}`; saveState(); }
+}
+function renderComments(tId) {
+    let cs = state.comments[tId] || [];
+    document.getElementById('c-count').innerText = cs.length;
+    let html = cs.map(c => `
+        <div class="comment-box">
+            <div class="avatar" style="background:${getAvatarColor(c.author)}">${getInitials(c.author)}</div>
+            <div class="comment-content text-sm">
+                <div class="flex justify-between text-muted mb-1"><span class="font-medium" style="color:var(--ink)">${c.author}</span> <span>${c.ts}</span></div>
+                <div>${c.text}</div>
+                ${c.author === state.currentUser ? `<div class="text-right mt-1"><button class="text-red hover:underline" style="font-size:10px;" onclick="delComment('${tId}','${c.id}')">Delete</button></div>` : ''}
+            </div>
+        </div>
+    `).join('');
+    document.getElementById('t-comments').innerHTML = html || '<div class="text-sm text-muted">No comments yet.</div>';
+}
+function addComment() {
+    let tId = document.getElementById('t-id').value;
+    if(!tId) return alert("Save task first before commenting.");
+    let txt = document.getElementById('t-new-comment').value.trim();
+    if(!txt) return;
+    
+    if(!state.comments[tId]) state.comments[tId] = [];
+    let d = NOW;
+    let ts = `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+    
+    state.comments[tId].push({id:uuid(), author:state.currentUser, text:txt, ts:ts});
+    document.getElementById('t-new-comment').value = '';
+    saveState(); renderComments(tId);
+}
+function delComment(tId, cId) {
+    state.comments[tId] = state.comments[tId].filter(x=>x.id!==cId);
+    saveState(); renderComments(tId);
+}
+
+// --- LEAVE ---
+function renderLeave() {
+    let html = state.users.map(u => {
+        let lv = state.leave.filter(l => l.uid === u.id);
+        let trs = lv.map(l => `<div class="text-sm flex justify-between py-1 border-b" style="border-bottom:1px solid var(--line2);">
+            <div><b>${l.type}</b><br><span class="text-muted text-xs">${formatDate(l.from)} - ${formatDate(l.to)}</span></div>
+            <div class="text-right"><b>${l.days}d</b><br><button class="text-red hover:underline edit-only" style="font-size:10px;" onclick="delLeave('${l.id}')">Delete</button></div>
+        </div>`).join('');
+        return `<div class="card"><div class="flex gap-3 mb-3 border-b pb-2"><div class="avatar" style="background:${getAvatarColor(u.name)}">${getInitials(u.name)}</div><div class="font-medium">${u.name}</div></div>${trs || '<div class="text-sm text-muted">No leave recorded.</div>'}</div>`;
+    }).join('');
+    document.getElementById('leave-grid').innerHTML = html;
+}
+function openLeaveModal() {
+    document.getElementById('l-official').innerHTML = state.users.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+    document.getElementById('l-from').value = ''; document.getElementById('l-to').value = ''; document.getElementById('l-notes').value = ''; document.getElementById('l-days').innerText = '0';
+    document.getElementById('m-leave').classList.remove('hidden'); document.getElementById('modal-overlay').classList.add('active');
+}
+function calcLeave() {
+    let f = document.getElementById('l-from').value, t = document.getElementById('l-to').value;
+    if(f && t) {
+        let d = daysBetween(f, t) + 1; // inclusive
+        document.getElementById('l-days').innerText = d > 0 ? d : 0;
+    }
+}
+function saveLeave() {
+    let f = document.getElementById('l-from').value, t = document.getElementById('l-to').value;
+    if(!f || !t) return alert("Dates required.");
+    state.leave.push({id:uuid(), uid:document.getElementById('l-official').value, type:document.getElementById('l-type').value, from:f, to:t, days: daysBetween(f,t)+1, notes:document.getElementById('l-notes').value});
+    saveState(); closeModals(); renderLeave(); renderTeam();
+}
+function delLeave(id) { state.leave = state.leave.filter(l=>l.id!==id); saveState(); renderLeave(); renderTeam(); }
+
+
+// --- CORRESPONDENCE ---
+let corrView = 'all';
+function setCorrView(v) { 
+    corrView = v; 
+    document.querySelectorAll('#tab-correspondence .pill').forEach(el=>el.classList.remove('active'));
+    document.getElementById('c-view-'+ (v==='outgoing'?'out':(v==='incoming'?'in':(v==='units'?'units':'all')))).classList.add('active');
+    
+    document.getElementById('corr-stats').classList.toggle('hidden', v==='units');
+    document.getElementById('corr-list').classList.toggle('hidden', v==='units');
+    document.getElementById('corr-units-view').classList.toggle('hidden', v!=='units');
+    document.getElementById('btn-new-corr').classList.toggle('hidden', v==='units');
+    if(v==='units') renderUnits(); else renderCorrespondence(); 
+}
+
+function renderCorrespondence() {
+    let cs = state.corr.filter(c => corrView==='all' || c.dir.toLowerCase()===corrView);
+    
+    let st = {tot: cs.length, pen:0, ov:0, res:0, clo:0};
+    cs.forEach(c => {
+        if(c.status==='Pending') st.pen++; else if(c.status==='Responded') st.res++; else st.clo++;
+        if(c.status==='Pending' && daysBetween(NOW, c.due)>0) st.ov++;
+    });
+    
+    document.getElementById('corr-stats').innerHTML = `
+        <div class="card"><div class="text-sm text-muted">Total</div><div class="text-xl">${st.tot}</div></div>
+        <div class="card"><div class="text-sm text-amber">Pending</div><div class="text-xl">${st.pen}</div></div>
+        <div class="card"><div class="text-sm text-red">Overdue</div><div class="text-xl">${st.ov}</div></div>
+        <div class="card"><div class="text-sm text-green">Responded</div><div class="text-xl">${st.res}</div></div>
+        <div class="card"><div class="text-sm text-slate">Closed</div><div class="text-xl">${st.clo}</div></div>
+    `;
+
+    let html = cs.sort((a,b)=>new Date(a.due)-new Date(b.due)).map(c => {
+        let u = state.units.find(x=>x.id===c.unitId) || {name:'Unknown', abbr:'UNK'};
+        let bClr = c.status==='Closed'?'var(--slate)': (c.status==='Responded'?'var(--green)': (daysBetween(NOW,c.due)>0?'var(--red)':'var(--amber)'));
+        let dirB = c.dir==='Outgoing' ? '<span class="badge b-blue">IC Unit sends</span>' : '<span class="badge b-green">IC Unit receives</span>';
+        
+        return `<div class="card flex flex-col gap-2 relative" style="border-left:4px solid ${bClr}">
+            <div class="flex justify-between">
+                <div class="flex gap-2 align-center">${dirB} <span class="badge b-slate">${u.abbr}</span> <span class="badge ${c.priority==='Urgent'?'b-red':'b-amber'}">${c.priority}</span> <span class="text-xs text-muted ml-2">${c.ref}</span></div>
+                <div class="edit-only"><button class="btn-icon" onclick="openCorrModal('${c.id}')"><i class="ti ti-pencil"></i></button></div>
+            </div>
+            <div class="font-medium text-lg mt-1">${c.subj}</div>
+            <div class="text-sm text-muted">${c.desc}</div>
+            <div class="flex gap-4 text-sm mt-2 pt-2 border-t" style="border-color:var(--line2);">
+                <div><i class="ti ti-calendar text-muted"></i> Sent: ${formatDate(c.sent)}</div>
+                <div style="color:${daysBetween(NOW,c.due)>0 && c.status==='Pending'?'var(--red)':''}"><i class="ti ti-clock text-muted"></i> Due: ${formatDate(c.due)}</div>
+                <div><b>Status:</b> ${c.status}</div>
+            </div>
+        </div>`;
+    }).join('');
+    document.getElementById('corr-list').innerHTML = html || '<div class="text-muted">No correspondence records found.</div>';
+}
+
+function renderUnits() {
+    document.getElementById('units-tbody').innerHTML = state.units.map(u => `<tr><td>${u.name}</td><td>${u.abbr}</td><td class="edit-only"><button class="btn-icon text-red" onclick="delUnit('${u.id}')"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+}
+function openUnitModal() {
+    let t = prompt("Unit Name:"); if(!t) return;
+    let a = prompt("Abbreviation:"); if(!a) return;
+    state.units.push({id:uuid(), name:t, abbr:a}); saveState(); renderUnits();
+}
+function delUnit(id) { state.units=state.units.filter(x=>x.id!==id); saveState(); renderUnits(); }
+
+function openCorrModal(id=null) {
+    document.getElementById('c-unit').innerHTML = state.units.map(u=>`<option value="${u.id}">${u.name} (${u.abbr})</option>`).join('');
+    if(id) {
+        let c = state.corr.find(x=>x.id===id);
+        document.getElementById('c-id').value = c.id;
+        document.querySelector(`input[name="c-dir"][value="${c.dir}"]`).checked = true;
+        document.getElementById('c-unit').value = c.unitId;
+        document.getElementById('c-priority').value = c.priority;
+        document.getElementById('c-ref').value = c.ref;
+        document.getElementById('c-subj').value = c.subj;
+        document.getElementById('c-desc').value = c.desc;
+        document.getElementById('c-sent').value = c.sent;
+        document.getElementById('c-due').value = c.due;
+        document.getElementById('c-status').value = c.status;
+        document.getElementById('btn-del-corr').classList.remove('hidden');
+    } else {
+        document.getElementById('c-id').value = '';
+        document.getElementById('c-ref').value = ''; document.getElementById('c-subj').value = ''; document.getElementById('c-desc').value = '';
+        document.getElementById('c-sent').value = new Date().toISOString().split('T')[0];
+        document.getElementById('c-due').value = new Date(Date.now()+7*86400000).toISOString().split('T')[0];
+        document.getElementById('c-status').value = 'Pending';
+        document.getElementById('btn-del-corr').classList.add('hidden');
+    }
+    document.getElementById('m-corr').classList.remove('hidden'); document.getElementById('modal-overlay').classList.add('active');
+}
+function saveCorr() {
+    let id = document.getElementById('c-id').value || uuid();
+    let c = {
+        id: id, dir: document.querySelector('input[name="c-dir"]:checked').value,
+        unitId: document.getElementById('c-unit').value, priority: document.getElementById('c-priority').value,
+        ref: document.getElementById('c-ref').value, subj: document.getElementById('c-subj').value,
+        desc: document.getElementById('c-desc').value, sent: document.getElementById('c-sent').value,
+        due: document.getElementById('c-due').value, status: document.getElementById('c-status').value
+    };
+    let idx = state.corr.findIndex(x=>x.id===id);
+    if(idx > -1) state.corr[idx] = c; else state.corr.push(c);
+    saveState(); closeModals(); renderCorrespondence();
+}
+function deleteCorr() {
+    state.corr = state.corr.filter(x=>x.id!==document.getElementById('c-id').value);
+    saveState(); closeModals(); renderCorrespondence();
+}
+
+// --- MANAGE ---
+function renderManage() {
+    document.getElementById('manage-buckets').innerHTML = state.buckets.map((b,i) => `<tr><td>${b}</td><td class="text-right"><button class="btn-icon text-red" onclick="delBucket(${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    document.getElementById('manage-officials').innerHTML = state.users.map(u => `<tr><td><div class="flex gap-2"><div class="avatar" style="background:${getAvatarColor(u.name)}">${getInitials(u.name)}</div><div><div class="font-medium">${u.name}</div><div class="text-xs text-muted">${u.email}</div></div></div></td><td class="text-right"><button class="btn-icon text-red" onclick="delOfficial('${u.id}')"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+}
+function openBucketModal() { let b = prompt("New Bucket Name:"); if(b) { state.buckets.push(b); saveState(); renderManage(); populateDropdowns(); } }
+function delBucket(idx) { state.buckets.splice(idx,1); saveState(); renderManage(); populateDropdowns(); }
+function openOfficialModal() {
+    let n = prompt("Official Name:"); if(!n) return;
+    let e = prompt("Email Address:"); if(!e) return;
+    state.users.push({id:uuid(), name:n, email:e}); saveState(); renderManage(); populateDropdowns(); renderTeam();
+}
+function delOfficial(id) { state.users = state.users.filter(u=>u.id!==id); saveState(); renderManage(); populateDropdowns(); renderTeam(); }
+
+
+// --- TEAM ---
+function renderTeam() {
+    document.getElementById('team-heading').innerText = `IC Unit — ${state.users.length} officials`;
+    let html = state.users.map(u => {
+        let ts = state.tasks.filter(x=>x.assignees.includes(u.id));
+        let act = ts.filter(x=>x.status!=='Completed').length;
+        let cmp = ts.filter(x=>x.status==='Completed').length;
+        let lvs = state.leave.filter(x=>x.uid===u.id).reduce((sum, l)=>sum+parseInt(l.days), 0);
+        
+        return `<div class="card flex-col align-center text-center">
+            <div class="avatar" style="width:64px; height:64px; font-size:24px; margin:0 auto 12px; background:${getAvatarColor(u.name)}">${getInitials(u.name)}</div>
+            <div class="font-medium text-lg">${u.name}</div>
+            <div class="text-xs text-muted mb-3">${u.email}</div>
+            <div class="grid col-2 w-full pt-3" style="border-top:1px solid var(--line); text-align:left;">
+                <div class="text-sm"><b>${act}</b> Active</div>
+                <div class="text-sm text-green"><b>${cmp}</b> Done</div>
+                <div class="text-sm text-slate mt-1" style="grid-column: span 2;"><b>${lvs}</b> Leave days taken</div>
+            </div>
+        </div>`;
+    }).join('');
+    document.getElementById('team-grid').innerHTML = html;
+}
+
+// --- NOTIFICATIONS ---
+function updateNotifBadge() {
+    let alerts = getAlerts();
+    let b = document.getElementById('notif-badge');
+    b.innerText = alerts.length;
+    b.classList.toggle('hidden', alerts.length === 0);
+    
+    let hasRed = alerts.some(a => a.type==='overdue' || a.type==='urgent');
+    b.style.background = hasRed ? 'var(--red)' : 'var(--amber)';
+}
+function getAlerts() {
+    let rDays = state.remindDays, uDays = state.urgentDays;
+    let alerts = [];
+    state.tasks.forEach(t => {
+        if(t.status==='Completed') return;
+        let d = daysBetween(NOW, t.due);
+        if(d < 0) alerts.push({task:t, type:'overdue', msg:`Overdue by ${Math.abs(d)} days`, clr:'red'});
+        else if(d <= uDays && (t.priority==='Urgent'||t.priority==='Important')) alerts.push({task:t, type:'urgent', msg:`Due in ${d} days`, clr:'amber'});
+        else if(d <= rDays) alerts.push({task:t, type:'soon', msg:`Due in ${d} days`, clr:'slate'});
+    });
+    return alerts.sort((a,b)=> new Date(a.task.due) - new Date(b.task.due));
+}
+function toggleNotifPanel() {
+    let p = document.getElementById('notif-panel');
+    p.classList.toggle('active');
+    if(p.classList.contains('active')) {
+        let alerts = getAlerts();
+        let html = alerts.map(a => `
+            <div class="notif-item" onclick="switchTab('tasks'); setTaskView('table'); document.getElementById('f-search').value='${a.task.name}'; renderTasks(); p.classList.remove('active');">
+                <div style="color:var(--${a.clr}); margin-top:2px;"><i class="ti ti-alert-circle"></i></div>
+                <div>
+                    <div class="font-medium text-sm">${a.task.name}</div>
+                    <div class="text-xs text-muted">${a.msg} • Due: ${formatDate(a.task.due)}</div>
+                </div>
+            </div>
+        `).join('');
+        document.getElementById('notif-list').innerHTML = html || '<div class="p-4 text-center text-muted text-sm">No reminders.</div>';
+    }
+}
+function toggleSettings() {
+    document.getElementById('notif-list').classList.toggle('hidden');
+    document.getElementById('notif-settings').classList.toggle('hidden');
+    document.getElementById('set-remind-days').value = state.remindDays;
+    document.getElementById('set-urgent-days').value = state.urgentDays;
+}
+function saveSettings() {
+    state.remindDays = document.getElementById('set-remind-days').value;
+    state.urgentDays = document.getElementById('set-urgent-days').value;
+    saveState(); toggleSettings();
+}
+
+// --- EXPORTS ---
+function escapeCSV(str) { return `"${String(str).replace(/"/g, '""')}"`; }
+
+function exportCSV() {
+    let fts = getFilteredTasks();
+    let csv = "Task Name,Bucket,Status,Priority,Start Date,Due Date,Assigned To\n" + 
+        fts.map(t => [
+            escapeCSV(t.name), escapeCSV(t.bucket), t.status, t.priority, t.start, t.due, 
+            escapeCSV(t.assignees.map(id => state.users.find(u=>u.id===id)?.name || '').join('; '))
+        ].join(',')).join('\n');
+    downloadBlob(csv, "tasks-export.csv");
+}
+
+function exportWeeklyProgress() {
+    let fts = getFilteredTasks();
+    let df = document.getElementById('f-date-from').value;
+    let dt = document.getElementById('f-date-to').value;
+    
+    // Default to current week (Mon-Sun) if no explicit date filter
+    if(!df || !dt) {
+        let d1 = new Date(NOW), d2 = new Date(NOW);
+        let day = d1.getDay() || 7;
+        d1.setDate(d1.getDate() - day + 1); d2.setDate(d1.getDate() + 6);
+        df = d1.toISOString().split('T')[0]; dt = d2.toISOString().split('T')[0];
+    }
+    
+    let genTime = `${NOW.getDate().toString().padStart(2,'0')}/${(NOW.getMonth()+1).toString().padStart(2,'0')}/${NOW.getFullYear()} ${NOW.getHours().toString().padStart(2,'0')}:${NOW.getMinutes().toString().padStart(2,'0')}`;
+    let filStr = `Bucket: ${document.getElementById('f-bucket').value} | Status: ${document.getElementById('f-status').value} | Priority: ${document.getElementById('f-priority').value}`;
+    
+    let c = fts.filter(x=>x.status==='Completed');
+    let p = fts.filter(x=>x.status==='In progress');
+    let n = fts.filter(x=>x.status==='Not started');
+    let o = fts.filter(x=>isOverdue(x));
+    let r = fts.filter(x=>x.recur);
+    let tot = fts.length || 1; // avoid /0
+
+    let csv = [];
+    csv.push("IC Unit — Operational Plan 2026 — Weekly Progress Feedback");
+    csv.push(`Period:,${formatDate(df)} to ${formatDate(dt)}`);
+    csv.push(`Generated:,${genTime}`);
+    csv.push(`Filters applied:,${escapeCSV(filStr)}`);
+    csv.push("");
+    
+    csv.push("SUMMARY");
+    csv.push(`Total tasks in period,${fts.length}`);
+    csv.push(`Completed,${c.length},(${((c.length/tot)*100).toFixed(1)}%)`);
+    csv.push(`In progress,${p.length},(${((p.length/tot)*100).toFixed(1)}%)`);
+    csv.push(`Not started,${n.length},(${((n.length/tot)*100).toFixed(1)}%)`);
+    csv.push(`Overdue,${o.length},(${((o.length/tot)*100).toFixed(1)}%)`);
+    csv.push("");
+    
+    let getAsg = t => escapeCSV(t.assignees.map(id => state.users.find(u=>u.id===id)?.name).join('; '));
+    
+    csv.push("COMPLETED TASKS");
+    csv.push("Task,Bucket,Due date,Completed by (assignees),Priority");
+    c.sort((a,b)=>new Date(a.due)-new Date(b.due)).forEach(t => csv.push(`${escapeCSV(t.name)},${escapeCSV(t.bucket)},${formatDate(t.due)},${getAsg(t)},${t.priority}`));
+    csv.push("");
+    
+    csv.push("IN PROGRESS");
+    csv.push("Task,Bucket,Due date,Days remaining,Assigned to,Priority");
+    p.sort((a,b)=>new Date(a.due)-new Date(b.due)).forEach(t => {
+        let d = daysBetween(NOW, t.due); let dStr = d<0 ? `Overdue ${Math.abs(d)} days` : d;
+        csv.push(`${escapeCSV(t.name)},${escapeCSV(t.bucket)},${formatDate(t.due)},${dStr},${getAsg(t)},${t.priority}`);
+    });
+    csv.push("");
+    
+    csv.push("NOT STARTED");
+    csv.push("Task,Bucket,Due date,Days until due,Assigned to,Priority");
+    n.sort((a,b)=>new Date(a.due)-new Date(b.due)).forEach(t => csv.push(`${escapeCSV(t.name)},${escapeCSV(t.bucket)},${formatDate(t.due)},${daysBetween(NOW,t.due)},${getAsg(t)},${t.priority}`));
+    csv.push("");
+    
+    csv.push("OVERDUE TASKS — ACTION REQUIRED");
+    csv.push("Task,Bucket,Status,Due date,Days overdue,Assigned to,Priority");
+    o.sort((a,b)=>new Date(a.due)-new Date(b.due)).forEach(t => csv.push(`${escapeCSV(t.name)},${escapeCSV(t.bucket)},${t.status},${formatDate(t.due)},${Math.abs(daysBetween(NOW,t.due))},${getAsg(t)},${t.priority}`));
+    csv.push("");
+    
+    csv.push("RECURRING TASKS");
+    csv.push("Task,Bucket,Frequency,Next due,Assigned to");
+    r.forEach(t => csv.push(`${escapeCSV(t.name)},${escapeCSV(t.bucket)},${t.recur.freq},${formatDate(t.due)},${getAsg(t)}`));
+    csv.push("");
+    
+    csv.push("OFFICIAL WORKLOAD SUMMARY");
+    csv.push("Official,Assigned,Completed,In Progress,Not Started,Overdue");
+    let offData = [];
+    state.users.forEach(u => {
+        let ut = fts.filter(x=>x.assignees.includes(u.id));
+        if(ut.length===0) return;
+        offData.push({
+            n: u.name, as: ut.length, co: ut.filter(x=>x.status==='Completed').length,
+            ip: ut.filter(x=>x.status==='In progress').length, ns: ut.filter(x=>x.status==='Not started').length,
+            ov: ut.filter(x=>isOverdue(x)).length
+        });
+    });
+    offData.sort((a,b)=>b.as - a.as).forEach(u => csv.push(`${escapeCSV(u.n)},${u.as},${u.co},${u.ip},${u.ns},${u.ov}`));
+
+    downloadBlob(csv.join('\n'), `weekly-progress-${df}-to-${dt}.csv`);
+}
+
+function downloadBlob(content, filename) {
+    let blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+    let link = document.createElement("a");
+    let url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// --- MODAL UTILS ---
+function closeModals() {
+    document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+    document.getElementById('modal-overlay').classList.remove('active');
+}
+function closeModalsOnOutside(e) { if(e.target.id === 'modal-overlay') closeModals(); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModals(); });
+
+// --- GOOGLE SHEETS INTEGRATION ---
+let GOOGLE_SCRIPT_URL = localStorage.getItem('ic_sheet_url') || '';
+
+function openSheetModal() {
+    let body = document.getElementById('ms-body');
+    let title = document.getElementById('ms-title');
+    title.innerText = 'Connect to Google Sheets';
+    body.innerHTML = `
+        <p class="text-sm text-muted mb-3">Paste your Google Apps Script deployment URL below to sync all task data to a Google Sheet.</p>
+        <label class="text-sm font-medium">Deployment URL</label>
+        <input type="text" id="gs-url" placeholder="https://script.google.com/macros/s/XXXXX/exec" value="${GOOGLE_SCRIPT_URL}">
+        <div id="gs-status" class="text-sm mt-2"></div>
+        <div class="flex gap-2 mt-3">
+            <button class="btn btn-green w-full" onclick="syncToGoogleSheets()"><i class="ti ti-upload"></i> Sync to Sheet</button>
+            <button class="btn b-blue w-full" onclick="loadFromGoogleSheets(document.getElementById('gs-url').value.trim() || GOOGLE_SCRIPT_URL, false)"><i class="ti ti-download"></i> Load from Sheet</button>
+        </div>
+        ${GOOGLE_SCRIPT_URL ? '<button class="btn b-red w-full mt-2" onclick="disconnectSheet()"><i class="ti ti-unlink"></i> Disconnect</button>' : ''}
+    `;
+    document.getElementById('ms-save').style.display = 'none';
+    document.getElementById('m-simple').classList.remove('hidden');
+    document.getElementById('modal-overlay').classList.add('active');
+}
+
+function disconnectSheet() {
+    GOOGLE_SCRIPT_URL = '';
+    localStorage.removeItem('ic_sheet_url');
+    document.getElementById('sheet-status').innerText = 'Connect Sheet';
+    closeModals();
+}
+
+function syncToGoogleSheets() {
+    let urlInput = document.getElementById('gs-url');
+    let url = urlInput ? urlInput.value.trim() : GOOGLE_SCRIPT_URL;
+    let statusEl = document.getElementById('gs-status');
+
+    if (!url) {
+        if (statusEl) statusEl.innerHTML = '<span style="color:var(--red)">Please enter a deployment URL.</span>';
+        return;
+    }
+
+    GOOGLE_SCRIPT_URL = url;
+    localStorage.setItem('ic_sheet_url', url);
+    document.getElementById('sheet-status').innerText = 'Syncing...';
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--amber)"><i class="ti ti-loader"></i> Syncing data...</span>';
+
+    // FIX 1: Wrap data inside { pass, action, data } as the Apps Script expects
+    // FIX 3: Include all sheet data (users, buckets, units) not just tasks/leave/corr
+    const payload = {
+        pass: "ic-unit-2026",
+        action: "write",
+        data: {
+            tasks: state.tasks.map(t => ({
+                id: t.id,
+                name: t.name,
+                bucket: t.bucket,
+                status: t.status,
+                priority: t.priority,
+                start: t.start,
+                due: t.due,
+                assignees: t.assignees.map(id => state.users.find(u => u.id === id)?.name || '').join('; '),
+                recurring: t.recur ? `${t.recur.freq} until ${t.recur.end}` : ''
+            })),
+            users: state.users.map(u => ({
+                id: u.id,
+                name: u.name,
+                email: u.email
+            })),
+            buckets: state.buckets.map(b => ({
+                name: b
+            })),
+            leave: state.leave.map(l => ({
+                official: state.users.find(u => u.id === l.uid)?.name || '',
+                type: l.type,
+                from: l.from,
+                to: l.to,
+                days: l.days,
+                notes: l.notes
+            })),
+            correspondence: state.corr.map(c => ({
+                direction: c.dir,
+                unit: (state.units.find(u => u.id === c.unitId) || {}).name || '',
+                priority: c.priority,
+                ref: c.ref,
+                subject: c.subj,
+                description: c.desc,
+                sent: c.sent,
+                due: c.due,
+                status: c.status
+            })),
+            units: state.units.map(u => ({
+                id: u.id,
+                name: u.name,
+                abbr: u.abbr
+            }))
+        }
+    };
+
+    // FIX 2: Remove mode:'no-cors' so we can actually read the response and detect errors.
+    // Requires your Apps Script deployment to be set to "Anyone" (not "Anyone with Google account").
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'text/plain' }
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.ok) {
+            document.getElementById('sheet-status').innerHTML = '<i class="ti ti-check"></i> Sheet Synced';
+            if (statusEl) statusEl.innerHTML = '<span style="color:var(--green)"><i class="ti ti-check"></i> Synced successfully!</span>';
+        } else {
+            throw new Error(res.error || 'Script returned an error');
+        }
+    })
+    .catch(err => {
+        document.getElementById('sheet-status').innerText = 'Sync Failed';
+        if (statusEl) statusEl.innerHTML = `<span style="color:var(--red)"><i class="ti ti-alert-circle"></i> Sync failed: ${err.message}</span>`;
+        console.error('Google Sheets sync error:', err);
+    });
+}
+
+// Boot
+window.onload = init;
+</script>
+</body>
+</html>
